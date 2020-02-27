@@ -442,6 +442,17 @@ class SF1Client(Client):
             geo['in'] += ' tract:{}'.format(tract)
         return self.get(fields, geo=geo, **kwargs)
 
+    @supported_years()
+    def state_county_block(self, fields, state_fips, county_fips,
+                                block, tract=None, **kwargs):
+        geo = {
+            'for': 'block:{}'.format(block),
+            'in': 'state:{} county:{}'.format(state_fips, county_fips),
+        }
+        if tract:
+            geo['in'] += ' tract:{}'.format(tract)
+        return self.get(fields, geo=geo, **kwargs)
+
     @supported_years(2010)
     def state_msa(self, fields, state_fips, msa, **kwargs):
         return self.get(fields, geo={
